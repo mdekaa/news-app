@@ -1,0 +1,25 @@
+/* Base styles */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222; /* Dark background */
+    color: #fff; /* White text */
+  }
+  
+  a {
+    color: #ddd;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #fff;
+  }
+  
+  .container { /* Adjust styles for your main container */
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+  
+  /* Add additional styles for other elements as needed */
+  
