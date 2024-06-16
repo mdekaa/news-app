@@ -1,11 +1,20 @@
-"use client"
+"use client" // Likely related to server-side rendering (SSR), can disregard for now
+
 import React, { useState, useEffect } from 'react';
 import NewsCard from '../components/NewsCard';
-import { fetchNews } from '../utils/api';
+import { fetchNews } from '../utils/api'; // Assuming this fetches news data
 
+// Define the NewsArticle interface
 interface News {
   articles: NewsArticle[];
   totalResults: number;
+}
+
+interface NewsArticle {
+  title: string;
+  url: string;
+  urlToImage?: string; // Optional image URL
+  description?: string;
 }
 
 const HomePage: React.FC = () => {
@@ -13,18 +22,31 @@ const HomePage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Added for error message
+  const [errorMessage, setErrorMessage] = useState(''); // Added for error messages
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      
+      try {
         const newNews = await fetchNews(currentPage);
         setNews((prevNews) => ({
           articles: [...prevNews.articles, ...newNews.articles],
           totalResults: newNews.totalResults,
         }));
-      
+      } catch (error) {
+        // Handle error here based on your specific needs
+        setHasError(true);
+
+        // Provide a more informative error message
+        if (error instanceof Error) { // Check if it's an Error object
+          setErrorMessage(error.message || 'Error fetching news');
+        } else {
+          setErrorMessage('An unexpected error occurred');
+          console.error('Error fetching news:', error); // Log the unexpected error
+        }
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchData();
