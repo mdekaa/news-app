@@ -18,19 +18,13 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      try {
+      
         const newNews = await fetchNews(currentPage);
         setNews((prevNews) => ({
           articles: [...prevNews.articles, ...newNews.articles],
           totalResults: newNews.totalResults,
         }));
-      } catch (error) {
-        setHasError(true);
-        setErrorMessage(error.message || 'Error fetching news'); // Set generic error if no message
-        console.error('Error fetching news:', error);
-      } finally {
-        setIsLoading(false);
-      }
+      
     };
 
     fetchData();
